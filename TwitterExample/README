@@ -1,0 +1,30 @@
+=============================================
+|                                           |
+|                                           |
+|            Android Examples               |
+|                                           |
+|                Twitter                    |
+|                                           |
+|                                           |
+=============================================
+
+++ Description ++
+
+This example logs the user into Twitter using OAUTH 2.0 and then allows the user to Tweet. It is powered by the Twitter4J Library.
+
+++ Usage ++
+
+In order to compile this and have it work correctly you need to register a 3rd Party application with Twitter. You then must enter your consumer keys into the code where specified shortly after the imports. Additionally, your Twitter application settings must have a callback URL (any URL will work - having the URL makes Twitter recognize your application as being "browsable" and allows the authentication via the Android Internet browser to work). All of this can be done here : https://dev.twitter.com/
+
+Additionally, I've only tested this app using the default Android browser. It's possible that some or all versions of alternative browsers such as Opera or Firefox may not work with this application.
+
+++ Why this example is awesome ++
+
+*It uses only a single Activity.
+*It works on all Android devices running firmware 1.6 or higher.
+*It uses the popular Twitter4J library which simplifies many interactions with Twitter down to a simple method.
+*It should serve as a simple yet thorough base for anyone getting started with integrating Twitter with Android as well as anyone looking for an example of successful OAUTH 2.0 authentication on Android.
+
+++ What's coming ... ++
+
+Eventually I plan to store the access tokens in Android preferences so the app doesn't have to be reauthorized to get them again. I also want to create a better UI and add additional Twitter functionality powered by Twitter4J (like sending Direct Messages, following/unfollowing people, etc.).

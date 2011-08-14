@@ -1,0 +1,27 @@
+=============================================
+|                                           |
+|                                           |
+|            Android Examples               |
+|                                           |
+|                                           |
+=============================================
+
+++ Description ++
+
+These Android Examples each demonstrate a concept or a solution to a common problem. I've published them open source under the GPL v3 because I feel they may be useful to other Android developers. If you do something cool with one of them, I think it would be awesome if you told me what it was :)
+
+++ Examples and Brief Description ++
+
+Twitter Example -- This is a simple single Activity Twitter client which uses the Android Web Browser to perform OAUTH authentication and then send a Tweet using the Twitter4J library.
+
+-- My Twitter --
+
+http://twitter.com/#!/robertszkutak
+
+-- My Website --
+
+http://robertszkutak.com
+
+-- My Blog --
+
+http://robertszkutak.blogspot.com
