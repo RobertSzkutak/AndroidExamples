@@ -1,0 +1,29 @@
+=============================================
+|                                           |
+|                                           |
+|            Android Examples               |
+|                                           |
+|                 Tumblr                    |
+|                                           |
+|                                           |
+=============================================
+
+++ Description ++
+
+This example logs the user into Tumblr using OAUTH 1.0a. Eventually it will do more than just that.
+
+++ Usage ++
+
+In order to compile this and have it work correctly you need to register a 3rd Party application with Tumblr. You then must enter your consumer keys into the code where specified shortly after the imports. Additionally, your Tumblr application settings must have a callback URL which matches your scheme and parameters defined in your intent filter. I used oauthflow-tumblr://callback for my callback URL.
+
+Additionally, I've only tested this app using the default Android browser. It's possible that some or all versions of alternative browsers such as Opera or Firefox may not work with this application.
+
+++ Why this example is awesome ++
+
+*It uses only a single Activity.
+*It works on all Android devices running firmware 1.6 or higher.
+*It should serve as a simple yet thorough base for anyone getting started with integrating Tumblr with Android as well as anyone looking for an example of successful OAUTH 1.0a authentication on Android.
+
+++ What's coming ... ++
+
+Eventually I plan to store the access tokens in Android preferences so the app doesn't have to be reauthorized to get them again. I also want to create a better UI and make it actually do something besides authentication (like post to your blog).
