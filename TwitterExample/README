@@ -27,4 +27,4 @@ Additionally, I've only tested this app using the default Android browser. It's 
 
 ++ What's coming ... ++
 
-Eventually I plan to store the access tokens in Android preferences so the app doesn't have to be reauthorized to get them again. I also want to create a better UI and add additional Twitter functionality powered by Twitter4J (like sending Direct Messages, following/unfollowing people, etc.).
+I'm considering writing a better UI and adding more functionality to the client so long as it doesn't interfere too much with the simplicity of this example. I have no intention of ever evolving this into a commercial application.
