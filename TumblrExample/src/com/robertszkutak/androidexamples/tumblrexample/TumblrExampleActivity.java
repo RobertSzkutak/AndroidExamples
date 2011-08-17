@@ -21,12 +21,16 @@ package com.robertszkutak.androidexamples.tumblrexample;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import oauth.signpost.OAuth;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -54,9 +58,11 @@ public class TumblrExampleActivity extends Activity
 	
 	private TextView debugStatus;
 	private EditText posttitle, poststring;
-	private Button post;
+	private Button post, loginorout;
 	
 	private static Intent newIntent = null;
+	
+	private static SharedPreferences pref = null;
 	
 	private static String debug, token, secret, authURL, uripath;
 	private static final boolean localauth = false;//Set to true if you give non-null values to ACCESS_TOKEN and ACCESS_TOKEN_SECRET and wish to authenticate without using the Android web browser
@@ -65,11 +71,14 @@ public class TumblrExampleActivity extends Activity
     private static CommonsHttpOAuthProvider provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
     
     private static boolean auth = false, browser = false, browser2 = false;//These booleans determine which code is run every time onResume is executed.
+    private static boolean loggedin = false;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) 
 	{   
 		super.onCreate(savedInstanceState);
+		
+		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		
         if(localauth)
 		{
@@ -79,24 +88,16 @@ public class TumblrExampleActivity extends Activity
 		}
 		else
 		{	
-			try 
+			token = pref.getString("TUMBLR_OAUTH_TOKEN", "");
+			secret = pref.getString("TUMBLR_OAUTH_TOKEN_SECRET", "");
+			
+			if(token != null && token != "" && secret != null && secret != "")
 			{
-				if(token == null && secret == null && auth == false && browser == false)
-					authURL = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
-				
-			} catch (OAuthMessageSignerException e) 
-			{
-				e.printStackTrace();
-			} catch (OAuthNotAuthorizedException e) 
-			{
-				e.printStackTrace();
-			} catch (OAuthExpectationFailedException e) 
-			{
-				e.printStackTrace();
-			} catch (OAuthCommunicationException e) 
-			{
-				e.printStackTrace();
+				auth = true;
+				loggedin = true;
 			}
+			else
+				setAuthURL();
 		}
 	}
 	
@@ -106,9 +107,6 @@ public class TumblrExampleActivity extends Activity
 		
 		if(localauth == false && auth == false)
 		{	
-			
-			//TODO : Check to see if tokens are stored in preferences from previous retrieval
-			
 			if(browser == true)
 				browser2 = true;
 			
@@ -134,17 +132,25 @@ public class TumblrExampleActivity extends Activity
 						token = consumer.getToken();
 						secret = consumer.getTokenSecret();
 					
-						auth = true;
+						final Editor editor = pref.edit();
+						editor.putString("TUMBLR_OAUTH_TOKEN", token);
+						editor.putString("TUMBLR_OAUTH_TOKEN_SECRET", secret);
+						editor.commit();
 						
-						//TODO : Store tokens in preferences for future use so we don't have to reauthenticate via the Internet
+						auth = true;
+						loggedin = true;
 
-					} catch (OAuthMessageSignerException e) {
+					} catch (OAuthMessageSignerException e) 
+					{
 						e.printStackTrace();
-					} catch (OAuthNotAuthorizedException e) {
+					} catch (OAuthNotAuthorizedException e) 
+					{
 						e.printStackTrace();
-					} catch (OAuthExpectationFailedException e) {
+					} catch (OAuthExpectationFailedException e) 
+					{
 						e.printStackTrace();
-					} catch (OAuthCommunicationException e) {
+					} catch (OAuthCommunicationException e) 
+					{
 						e.printStackTrace();
 					}
 				}
@@ -159,6 +165,7 @@ public class TumblrExampleActivity extends Activity
 	        poststring = (EditText)findViewById(R.id.post);
 	        debugStatus = (TextView)findViewById(R.id.debug_status);
 	        post = (Button) findViewById(R.id.btn_post);
+	        loginorout = (Button) findViewById(R.id.loginorout);
 			
         	debug = "Access Token: " + token + "\n\nAccess Token Secret: " + secret;
         	debugStatus.setText(debug);
@@ -167,19 +174,108 @@ public class TumblrExampleActivity extends Activity
         	{
             	public void onClick(View v)
             	{
-            		if (auth == true) 
+            		if (isAuthenticated()) 
             		{
             			sendPost();
             		} else 
             		{
-            			//TODO Some sort of failure pop-up (eg TOAST)
+            			Toast toast = Toast.makeText(getApplicationContext(), "You are not logged into Tumblr", Toast.LENGTH_SHORT);
+            			toast.show();
             		}
             	}
         	});
+        	
+        	loginorout.setOnClickListener(new View.OnClickListener() 
+        	{
+            	public void onClick(View v)
+            	{
+            		LogInOrOut();
+            	}
+        	});
+        	
+        	updateLoginStatus();
         }
 		
 		if(auth == false && browser2 == true)
 			finish();
+	}
+	
+	//Grabs the authorization URL from OAUTH and sets it to the String authURL member
+	private void setAuthURL()
+	{
+		try 
+		{
+			if((token == null || token == "") && (secret == null || secret == "") && auth == false && browser == false)
+				authURL = provider.retrieveRequestToken(consumer, OAUTH_CALLBACK_URL);
+			
+		} catch (OAuthMessageSignerException e) 
+		{
+			e.printStackTrace();
+		} catch (OAuthNotAuthorizedException e) 
+		{
+			e.printStackTrace();
+		} catch (OAuthExpectationFailedException e) 
+		{
+			e.printStackTrace();
+		} catch (OAuthCommunicationException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	//Logs the user in or out of Tumblr depending on whether they are presently logged into Tumblr
+	private void LogInOrOut()
+	{
+		if(isAuthenticated())
+			logout();
+		else
+		{
+			auth = browser = browser2 = false;
+			setAuthURL();
+			browser = true;
+			newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(authURL));
+			startActivity(newIntent);
+		}	
+	}
+	
+	//Removes the shared preferences values and sets the current token and secret to null essentially logging the user out of Tumblr
+	private void logout() 
+	{
+		final Editor edit = pref.edit();
+		edit.remove("TUMBLR_OAUTH_TOKEN");
+		edit.remove("TUMBLR_OAUTH_TOKEN_SECRET");
+		edit.commit();
+		
+		token = null;
+		secret = null;
+		
+		consumer = null;
+		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+	    provider = null;
+	    provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
+	    
+	    debug = "Access Token: " + token + "\n\nAccess Token Secret: " + secret;
+    	debugStatus.setText(debug);
+    	
+    	loggedin = false;
+		
+		updateLoginStatus();
+	}
+	
+	//Updates a TextView telling us whether or not we are logged into Tumblr
+	private void updateLoginStatus()
+	{
+		if(isAuthenticated())
+			loginorout.setText("Log out of Tumblr");
+		else
+			loginorout.setText("Log into Tumblr");
+	}
+	
+	//Returns whether or not the user is logged into Tumblr successfully
+	private boolean isAuthenticated()
+	{
+		//TODO : Write a real authentication check
+		return loggedin;
 	}
 	
 	//Sends a Post to Tumblr

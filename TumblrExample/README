@@ -26,4 +26,4 @@ Additionally, I've only tested this app using the default Android browser. It's 
 
 ++ What's coming ... ++
 
-Eventually I plan to store the access tokens in Android preferences so the app doesn't have to be reauthorized to get them again. I also want to create a better UI and make it actually do something besides authentication (like post to your blog).
+I want to create a better UI and make it actually do something besides authentication (like post to your blog).
