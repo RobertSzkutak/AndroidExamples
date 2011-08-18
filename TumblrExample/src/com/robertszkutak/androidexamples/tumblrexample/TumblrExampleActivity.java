@@ -19,6 +19,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 package com.robertszkutak.androidexamples.tumblrexample;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,7 +72,7 @@ public class TumblrExampleActivity extends Activity
 	public static final String	OAUTH_CALLBACK_URL		= OAUTH_CALLBACK_SCHEME + "://" + OAUTH_CALLBACK_HOST;
 	
 	private TextView debugStatus;
-	private EditText posttitle, poststring;
+	private EditText blogname, posttitle, poststring;
 	private Button post, loginorout;
 	
 	private static Intent newIntent = null;
@@ -161,11 +176,14 @@ public class TumblrExampleActivity extends Activity
         {
 	        setContentView(R.layout.main);
 
+	        blogname = (EditText) findViewById(R.id.blogname);
 	        posttitle = (EditText)findViewById(R.id.posttitle);
 	        poststring = (EditText)findViewById(R.id.post);
 	        debugStatus = (TextView)findViewById(R.id.debug_status);
 	        post = (Button) findViewById(R.id.btn_post);
 	        loginorout = (Button) findViewById(R.id.loginorout);
+	        
+	        blogname.setText(pref.getString("TUMBLR_BLOG_NAME", ""));
 			
         	debug = "Access Token: " + token + "\n\nAccess Token Secret: " + secret;
         	debugStatus.setText(debug);
@@ -176,6 +194,7 @@ public class TumblrExampleActivity extends Activity
             	{
             		if (isAuthenticated()) 
             		{
+            			saveBlogName();
             			sendPost();
             		} else 
             		{
@@ -244,6 +263,7 @@ public class TumblrExampleActivity extends Activity
 		final Editor edit = pref.edit();
 		edit.remove("TUMBLR_OAUTH_TOKEN");
 		edit.remove("TUMBLR_OAUTH_TOKEN_SECRET");
+		edit.remove("TUMBLR_BLOG_NAME");
 		edit.commit();
 		
 		token = null;
@@ -254,7 +274,7 @@ public class TumblrExampleActivity extends Activity
 	    provider = null;
 	    provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
 	    
-	    debug = "Access Token: " + token + "\n\nAccess Token Secret: " + secret;
+	    debug = "Access Token: " + token + "\n\nAccess Token Secret: " + secret + "\n\n";
     	debugStatus.setText(debug);
     	
     	loggedin = false;
@@ -278,12 +298,82 @@ public class TumblrExampleActivity extends Activity
 		return loggedin;
 	}
 	
+	//Saves the name of the Tumblr blog in shared preferences
+	private void saveBlogName()
+	{
+		String blogname1 = blogname.getText().toString();
+		String blogname2 = pref.getString("TUMBLR_BLOG_NAME", "");
+		
+		if(blogname1 != blogname2)
+		{
+			final Editor editor = pref.edit();
+			editor.putString("TUMBLR_BLOG_NAME", blogname1);
+			editor.commit();
+		}
+	}
+	
 	//Sends a Post to Tumblr
 	public void sendPost() 
 	{
 		String title = posttitle.getText().toString();
 		String body = poststring.getText().toString();
 		
-		//TODO : Finish this
+		HttpPost hpost = new HttpPost("http://api.tumblr.com/v2/blog/" + blogname.getText().toString() + ".tumblr.com/post");
+		
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs.add(new BasicNameValuePair("type", "text"));
+		nameValuePairs.add(new BasicNameValuePair("title", title));
+		nameValuePairs.add(new BasicNameValuePair("body", body));
+		
+		try 
+		{
+			hpost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		} catch (UnsupportedEncodingException e) 
+		{
+			debug += e.toString();
+		}
+		
+		consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+		consumer.setTokenWithSecret(token, secret);
+		try 
+		{
+			consumer.sign(hpost);
+		} catch (OAuthMessageSignerException e) 
+		{
+			debug += e.toString();
+		} catch (OAuthExpectationFailedException e) 
+		{
+			debug += e.toString();
+		} catch (OAuthCommunicationException e) 
+		{
+			debug += e.toString();
+		}
+		
+		DefaultHttpClient client = new DefaultHttpClient();
+		HttpResponse resp = null;
+		try 
+		{
+			resp = client.execute(hpost);
+		} catch (ClientProtocolException e) 
+		{
+			debug += e.toString();
+		} catch (IOException e) 
+		{
+			debug += e.toString();
+		}
+		
+		String result = null;
+		try {
+			result = EntityUtils.toString(resp.getEntity());
+		} catch (ParseException e) 
+		{
+			debug += e.toString();
+		} catch (IOException e) 
+		{
+			debug += e.toString();
+		}
+		
+		debug += result;
+		debugStatus.setText(debug);
 	}
 }

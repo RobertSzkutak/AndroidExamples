@@ -10,7 +10,7 @@
 
 ++ Description ++
 
-This example logs the user into Tumblr using OAUTH 1.0a. Eventually it will do more than just that.
+This example logs the user into Tumblr using OAUTH 1.0a. It then allows the user to make a post to their blog.
 
 ++ Usage ++
 
@@ -21,9 +21,6 @@ Additionally, I've only tested this app using the default Android browser. It's 
 ++ Why this example is awesome ++
 
 *It uses only a single Activity.
+*It demonstrates using HTTP POST to make a Tumblr blog post
 *It works on all Android devices running firmware 1.6 or higher.
 *It should serve as a simple yet thorough base for anyone getting started with integrating Tumblr with Android as well as anyone looking for an example of successful OAUTH 1.0a authentication on Android.
-
-++ What's coming ... ++
-
-I want to create a better UI and make it actually do something besides authentication (like post to your blog).

@@ -5,6 +5,11 @@
     android:layout_height="fill_parent"
     >
 
+        <EditText android:id="@+id/blogname"
+	              android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:hint="Place the name of your blog here"/>
+
         <EditText android:id="@+id/posttitle"
 	              android:layout_width="wrap_content"
 	              android:layout_height="wrap_content"
@@ -13,12 +18,17 @@
         <EditText android:id="@+id/post"
 	              android:layout_width="wrap_content"
 	              android:layout_height="wrap_content"
-	              android:hint="Place post here"/>
+	              android:hint="Place post body here"/>
 
 	    <Button android:id="@+id/btn_post"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:text="Post"/>
+	            
+	    <Button android:id="@+id/loginorout"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text=""/>
 	            
 	    <TextView android:id="@+id/debug_status"
 	              android:layout_width="wrap_content"
