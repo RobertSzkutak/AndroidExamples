@@ -1,0 +1,29 @@
+=============================================
+|                                           |
+|                                           |
+|            Android Examples               |
+|                                           |
+|                  Imgur                    |
+|                                           |
+|                                           |
+=============================================
+
+++ Description ++
+
+This example logs the user into or out of Imgur using OAUTH 1.0a and uses the authenticated Imgur API to allow the user to upload photos to their account.
+
+++ Usage ++
+
+In order to compile this and have it work correctly you need to register a 3rd Party application with Imgur. You then must enter your consumer keys into the code where specified shortly after the imports. At time of writing, the Imgur API is a work in progress so in order to use oauthflow-imgur://callback as your callback URL like I did you will need to e-mail alan@imgur.com for permission.
+
+Additionally, I've only tested this app using the default Android browser. It's possible that some or all versions of alternative browsers such as Opera or Firefox may not work with this application.
+
+++ Why this example is awesome ++
+
+*It uses only a single Activity.
+*It works on all Android devices running firmware 1.6 or higher.
+*It should serve as a simple yet thorough base for anyone getting started with integrating Imgur with Android as well as anyone looking for an example of successful OAUTH 1.0a authentication on Android.
+
+++ What's coming ... ++
+
+A couple of general fixes need to be applied such as image format detection. I'm considering writing a better UI for the client as long as it doesn't interfere with the simplicitiy of the coding.

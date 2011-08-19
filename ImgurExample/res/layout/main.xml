@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+        <EditText android:id="@+id/imagepath"
+	              android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:hint="Place path to your image here"/>
+
+	    <Button android:id="@+id/upload"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Upload image"/>
+	            
+	    <Button android:id="@+id/loginout" 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"/>
+	            
+	    <TextView android:id="@+id/debug_status"
+	              android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:text=""
+	              android:textColor="#FFFFFF"/>
+	            
+</LinearLayout>
