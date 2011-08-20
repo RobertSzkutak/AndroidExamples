@@ -69,9 +69,6 @@ public class ImgurExampleActivity extends Activity
 	public static final String CONSUMER_KEY = "Obtain this from Imgur";
 	public static final String CONSUMER_SECRET = "Obtain this from Imgur";
 	
-	public static final String ACCESS_TOKEN = "Optional : Get this from your Imgur application settings page";
-	public static final String ACCESS_TOKEN_SECRET = "Optional : Get this from your Imgur application settings page";
-	
 	public static final String REQUEST_URL = "http://api.imgur.com/oauth/request_token";
 	public static final String ACCESS_URL = "http://api.imgur.com/oauth/access_token";
 	public static final String AUTHORIZE_URL = "http://api.imgur.com/oauth/authorize";
@@ -89,7 +86,6 @@ public class ImgurExampleActivity extends Activity
 	private static SharedPreferences pref = null;
 	
 	private static String debug, token, secret, authURL, uripath;
-	private static final boolean localauth = false;//Set to true if you give non-null values to ACCESS_TOKEN and ACCESS_TOKEN_SECRET and wish to authenticate without using the Android web browser
 	
 	private static CommonsHttpOAuthConsumer consumer = new CommonsHttpOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
     private static CommonsHttpOAuthProvider provider = new CommonsHttpOAuthProvider(REQUEST_URL, ACCESS_URL, AUTHORIZE_URL);
@@ -104,32 +100,24 @@ public class ImgurExampleActivity extends Activity
 		
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		
-        if(localauth)
+        
+		token = pref.getString("IMGUR_OAUTH_TOKEN", "");
+		secret = pref.getString("IMGUR_OAUTH_TOKEN_SECRET", "");
+			
+		if(token != null && token != "" && secret != null && secret != "")
 		{
-		    token = ACCESS_TOKEN;
-		    secret = ACCESS_TOKEN_SECRET;
-		    auth = true;
+			auth = true;
+			loggedin = true;
 		}
 		else
-		{	
-			token = pref.getString("IMGUR_OAUTH_TOKEN", "");
-			secret = pref.getString("IMGUR_OAUTH_TOKEN_SECRET", "");
-			
-			if(token != null && token != "" && secret != null && secret != "")
-			{
-				auth = true;
-				loggedin = true;
-			}
-			else
-				setAuthURL();
-		}
+			setAuthURL();
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		
-		if(localauth == false && auth == false)
+		if(auth == false)
 		{	
 			if(browser == true)
 				browser2 = true;
@@ -189,6 +177,8 @@ public class ImgurExampleActivity extends Activity
 	        debugStatus = (TextView)findViewById(R.id.debug_status);
 	        upload = (Button) findViewById(R.id.upload);
 	        loginorout = (Button) findViewById(R.id.loginout);
+			
+	        path.setText(Environment.getExternalStorageDirectory() + "/DCIM/Camera/2011-08-18 18.56.12.jpg");
 	        
         	debug = "Access Token: " + token + "\n\nAccess Token Secret: " + secret;
         	debugStatus.setText(debug);
