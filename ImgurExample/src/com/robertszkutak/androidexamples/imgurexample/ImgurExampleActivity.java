@@ -177,8 +177,6 @@ public class ImgurExampleActivity extends Activity
 	        debugStatus = (TextView)findViewById(R.id.debug_status);
 	        upload = (Button) findViewById(R.id.upload);
 	        loginorout = (Button) findViewById(R.id.loginout);
-			
-	        path.setText(Environment.getExternalStorageDirectory() + "/DCIM/Camera/2011-08-18 18.56.12.jpg");
 	        
         	debug = "Access Token: " + token + "\n\nAccess Token Secret: " + secret;
         	debugStatus.setText(debug);
@@ -296,6 +294,10 @@ public class ImgurExampleActivity extends Activity
 	{
 		String imagePath = path.getText().toString();
 		
+		String ext = imagePath.substring(imagePath.length() - 5);
+		if(!ext.matches(".jpeg") && !ext.matches(".JPEG"))
+			ext = imagePath.substring(imagePath.length() - 4);
+		
 		FileInputStream in;
         BufferedInputStream buf;
         Bitmap bMap = null;
@@ -314,9 +316,13 @@ public class ImgurExampleActivity extends Activity
         }
         
         ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
-        //TODO : Write something to detect JPEG or PNG or GIF etc.
-        //TODO : Figure out how to get higher quality JPEG compression.
-        bMap.compress(CompressFormat.JPEG, 0, bos);
+       
+        if(ext.matches(".jpeg") || ext.matches(".JPEG") || ext.matches(".jpg") || ext.matches(".JPG"))
+        	bMap.compress(CompressFormat.JPEG, 0, bos);//TODO : Figure out how to retain high quality JPG
+        if(ext.matches(".png") || ext.matches(".PNG"))
+        	bMap.compress(CompressFormat.PNG, 0, bos);
+        
+        //TODO : Figure out GIF
 		
         String data = null;
         data = Base64.encodeToString(bos.toByteArray(), false);
