@@ -12,13 +12,17 @@ These Android Examples each demonstrate a concept or a solution to a common prob
 
 ++ Examples and Brief Description ++
 
-Imgur Example -- This is a simple single Activity Imgur client which uses the Android Web Browser to perform OAUTH authentication and uses the authenticated Imgur API to upload photos to the user's account.
+Imgur Example -- This is a simple single Activity Imgur client which uses the Android Web Browser to perform OAUTH 
+authentication and uses the authenticated Imgur API to upload photos to the user's account.
 
-RSS Example -- Asynchronously loads an RSS feed. Allows for viewing of single items in the RSS feed. RSS Item viewer contains a simple HTML parser. Uses shared preferences for viewing different RSS feeds.
+RSS Example -- Asynchronously loads an RSS feed. Allows for viewing of single items in the RSS feed. RSS Item 
+viewer contains a simple HTML parser. Uses shared preferences for viewing different RSS feeds.
 
-Tumblr Example -- This is a simple single Activity Tumblr client which uses the Android Web Browser to perform OAUTH authentication and allows the user to post to their blog.
+Tumblr Example -- This is a simple single Activity Tumblr client which uses the Android Web Browser to perform 
+OAUTH authentication and allows the user to post to their blog.
 
-Twitter Example -- This is a simple single Activity Twitter client which uses the Android Web Browser to perform OAUTH authentication and then send a Tweet using the Twitter4J library.
+Twitter Example -- This is a simple single Activity Twitter client which uses the Android Web Browser to perform 
+OAUTH authentication and then send a Tweet using the Twitter4J library.
 
 -- My Twitter --
 
