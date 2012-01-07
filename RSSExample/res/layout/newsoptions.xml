@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/newsrefresh"
+        android:icon="@drawable/ic_launcher" 
+        android:title="Refresh" />
+    <item android:id="@+id/newssettings"
+    	android:icon="@+drawable/ic_launcher"
+        android:title="Change Feed" />
+</menu>
