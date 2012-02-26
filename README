@@ -8,28 +8,22 @@
 
 ++ Description ++
 
-These Android Examples each demonstrate a concept or a solution to a common problem. I've published them open 
-source under the GPL v3 because I feel they may be useful to other Android developers. If you do something cool 
-with one of them, I think it would be awesome if you told me what it was :)
+These Android Examples each demonstrate a concept or a solution to a common problem. I've published them open source under the GPL v3 because I feel they may be useful to other Android developers. If you do something cool with one of them, I think it would be awesome if you told me what it was :)
 
 ++ Examples and Brief Description ++
 
-Imgur Example -- This is a simple single Activity Imgur client which uses the Android Web Browser to perform OAUTH 
-authentication and uses the authenticated Imgur API to upload photos to the user's account.
+Drawing Example 1 -- This is a really simple example showing how to draw an image onto an XY coordinate pair on Android
 
-RSS Example -- Asynchronously loads an RSS feed. Allows for viewing of single items in the RSS feed. RSS Item 
-viewer contains a simple HTML parser. Uses shared preferences for viewing different RSS feeds.
+Imgur Example -- This is a simple single Activity Imgur client which uses the Android Web Browser to perform OAUTH authentication and uses the authenticated Imgur API to upload photos to the user's account.
 
-Tumblr Example -- This is a simple single Activity Tumblr client which uses the Android Web Browser to perform 
-OAUTH authentication and allows the user to post to their blog.
+RSS Example -- Asynchronously loads an RSS feed. Allows for viewing of single items in the RSS feed. RSS Item viewer contains a simple HTML parser. Uses shared preferences for viewing different RSS feeds.
 
-Twitter Example -- This is a simple single Activity Twitter client which uses the Android Web Browser to perform 
-OAUTH authentication and then send a Tweet using the Twitter4J library.
+Tumblr Example -- This is a simple single Activity Tumblr client which uses the Android Web Browser to perform OAUTH authentication and allows the user to post to their blog.
 
--- My Twitter --
+Twitter Example -- This is a simple single Activity Twitter client which uses the Android Web Browser to perform OAUTH authentication and then send a Tweet using the Twitter4J library.
 
-http://twitter.com/#!/robertszkutak
+++ Author Contact Information ++
 
--- My Website --
-
-http://robertszkutak.com
+E-mail: robert@robertszkutak.com
+Website: http://robertszkutak.com
+Twitter: http://twitter.com/#!/robertszkutak
