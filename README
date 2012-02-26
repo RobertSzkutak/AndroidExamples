@@ -14,6 +14,8 @@ These Android Examples each demonstrate a concept or a solution to a common prob
 
 Drawing Example 1 -- This is a really simple example showing how to draw an image onto an XY coordinate pair on Android
 
+Drawing Example 2 -- This is based off of Drawing Example 1. This simple example shows how to draw at 60FPS using a thread.
+
 Imgur Example -- This is a simple single Activity Imgur client which uses the Android Web Browser to perform OAUTH authentication and uses the authenticated Imgur API to upload photos to the user's account.
 
 RSS Example -- Asynchronously loads an RSS feed. Allows for viewing of single items in the RSS feed. RSS Item viewer contains a simple HTML parser. Uses shared preferences for viewing different RSS feeds.
